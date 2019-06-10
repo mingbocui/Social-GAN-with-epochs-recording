@@ -1,0 +1,25 @@
+import trajnettools
+import numpy as np
+import torch
+train_scenes = list(trajnettools.load_all('datasets/dataset_aux_sgan/train/train/*.ndjson', scene_type=None))
+
+train_scenes = [j for i, j in train_scenes]
+train_scenes = np.concatenate(train_scenes,axis=1)
+train_scenes = torch.from_numpy(train_scenes)
+train_scenes.shape
+
+obs_train = train_scenes[0:12,:,:]
+print(obs_train.shape)
+pred_train = train_scenes[12:,:,:]
+print(pred_train.shape)
+
+val_scenes = list(trajnettools.load_all('datasets/dataset_aux_sgan/val/val/*.ndjson', scene_type=None))
+val_scenes = [j for i, j in val_scenes]
+val_scenes = np.concatenate(val_scenes,axis=1)
+val_scenes = torch.from_numpy(val_scenes)
+val_scenes.shape
+
+torch.sum(torch.isnan(val_scenes))//2
+torch.sum(torch.isnan(train_scenes))//2
+x = torch.tensor([[1, 2], [np.nan, np.nan]])
+torch.sum(torch.isnan(x))
